@@ -3,20 +3,16 @@ using System.Collections.Generic;
 
 namespace _01Adapter
 {
-    public class MessageService
+    public class MessageTestService : IMessageService
     {
-        private List<Message> messages = new List<Message>();
+        private List<Message> messages = new List<Message>();     
 
-        public MessageService()
-        {
-        }
-
-        internal void AddMessage(string to, string subject, string text)
+        public void AddMessage(string to, string subject, string text)
         {
             messages.Add(new Message { to="to", subject="subject", text="text" });
         }
 
-        internal void SendMessages()
+        public void SendMessages()
         {
             foreach (var message in messages)
             {

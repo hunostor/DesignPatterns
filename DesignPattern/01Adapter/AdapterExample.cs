@@ -3,14 +3,25 @@ using System.Collections.Generic;
 
 namespace _01Adapter
 {
-    internal class AdapterExample
+    public class AdapterExample
     {
-        public void Start()
+        private readonly IAddressRepository repository;
+        private readonly IMessageService service;
+
+        public AdapterExample(IAddressRepository repository, IMessageService service)
         {
+            if(repository == null) { throw new ArgumentNullException(nameof(repository)); }
+            this.repository = repository;
+
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
+            this.service = service;
+        }
+
+
+        public void Start()
+        {           
             // datasource
             // var list = new List<string>() { "mailAddress1", "mailAddress2" };
-
-            var repo = new AddressRepository();
 
             // email solution
             //var message = new MailMessage();
@@ -27,18 +38,15 @@ namespace _01Adapter
 
             // [Egyik objektum]---(csatolás)---[köztes ADAPTER objektum]---(csatolás)---[Másik objektum]
 
-            var addressList = repo.GetAddresses();
-
-            var messageService = new MessageService();
-
+            var addressList = repository.GetAddresses();
 
             foreach (var address in addressList)
             {
-                messageService.AddMessage(to: address.Email, subject: "Ez az uzenet cime", text: "Uzenet szovege");
+                service.AddMessage(to: address.Email, subject: "Ez az uzenet cime", text: "Uzenet szovege");
 
             }
 
-            messageService.SendMessages();
+            service.SendMessages();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace _01Adapter
     {
         static void Main(string[] args)
         {
-            var example = new AdapterExample();
+            var example = new AdapterExample(new AddressTestRepository(), new MessageTestService());
             example.Start();
 
             Console.ReadKey(true);
