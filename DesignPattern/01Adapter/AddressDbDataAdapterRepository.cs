@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _01Adapter.Resource;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -16,7 +17,15 @@ namespace _01Adapter
 
         public IList<Address> GetAddresses()
         {
-            throw new NotImplementedException();
+            var dataSet = new DataSet();
+            adapter.Fill(dataSet);
+            var list = new List<Address>();
+            foreach(DataRow row in dataSet.Tables[0].Rows)
+            {
+                list.Add(new Address { Email = row.Field<string>(GlobalStrings.TableColumnEmailAddress) });
+            }
+
+            return list;
         }
     }
 }
